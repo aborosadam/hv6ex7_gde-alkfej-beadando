@@ -97,3 +97,27 @@ http://movies.localhost:8088/swagger
 Itt minden CRUD végpontot ki lehet próbálni a UI-ból.
 
 A `.http` fájlok a `http-requests/` mappában is használhatóak (VS Code REST Client extension-nel).
+
+## Tesztadat feltöltése
+
+A repó tartalmaz egy seed scriptet, amely 12 ismert filmet és 25 értékelést tölt fel az adatbázisba. Hasznos demó vagy fejlesztési célokra.
+
+### Futtatás
+
+A telepített és futó alkalmazásnál (port-forward fut a 8088-on):
+
+```bash
+cd hv6ex7_gde-alkfej-beadando
+chmod +x seed-data.sh
+./seed-data.sh
+```
+
+A script a `http://movies.localhost:8088/api/Movies` és `/api/Reviews` endpointokat hívja meg, és klasszikus filmeket (Inception, The Matrix, The Godfather, Pulp Fiction, stb.) hoz létre változatos értékelésekkel.
+
+### Egyedi backend URL
+
+Ha más URL-en fut az alkalmazás (pl. docker-compose esetén `http://localhost:8080`), módosítsd a script tetején a `BASE` változót:
+
+```bash
+BASE="http://localhost:8080"
+```
