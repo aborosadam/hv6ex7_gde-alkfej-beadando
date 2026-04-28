@@ -4,36 +4,36 @@ metadata:
   name: movies-ingress
   namespace: movies
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   ingressClassName: nginx
   rules:
     - host: movies.localhost
       http:
         paths:
-          - path: /api(/|$)(.*)
-            pathType: ImplementationSpecific
+          - path: /api
+            pathType: Prefix
             backend:
               service:
                 name: backend
                 port:
                   number: 8080
-          - path: /health(/|$)(.*)
-            pathType: ImplementationSpecific
+          - path: /swagger
+            pathType: Prefix
             backend:
               service:
                 name: backend
                 port:
                   number: 8080
-          - path: /swagger(/|$)(.*)
-            pathType: ImplementationSpecific
+          - path: /health
+            pathType: Prefix
             backend:
               service:
                 name: backend
                 port:
                   number: 8080
-          - path: /(.*)
-            pathType: ImplementationSpecific
+          - path: /
+            pathType: Prefix
             backend:
               service:
                 name: frontend
