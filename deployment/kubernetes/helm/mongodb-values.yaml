@@ -1,0 +1,16 @@
+auth:
+  rootUser: admin
+  rootPassword: admin123
+  usernames:
+    - moviesuser
+  passwords:
+    - movies123
+  databases:
+    - moviesdb
+
+persistence:
+  enabled: true
+  size: 1Gi
+
+image:
+  tag: 8.0

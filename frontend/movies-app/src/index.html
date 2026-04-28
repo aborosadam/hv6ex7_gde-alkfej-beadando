@@ -7,7 +7,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 <script>
-  window.API_BASE_URL = window.location.hostname === 'localhost' && window.location.port === '4200' ? '' : 'http://localhost:8080';
+  // Detect environment:
+  // - ng serve dev (port 4200): use hardcoded http://localhost:5062 in services
+  // - docker-compose (port 8081): use http://localhost:8080
+  // - Kubernetes (movies.localhost): use relative URL /api/...
+  (function() {
+    var host = window.location.hostname;
+    var port = window.location.port;
+    if (host === 'localhost' && port === '4200') {
+      window.API_BASE_URL = '';  // dev mode, services use localhost:5062
+    } else if (host === 'localhost' && port === '8081') {
+      window.API_BASE_URL = 'http://localhost:8080';  // docker-compose
+    } else {
+      window.API_BASE_URL = '';  // K8s ingress, relative URLs
+    }
+  })();
 </script>
 </head>
 <body>
