@@ -8,18 +8,7 @@ import { Movie, MoviesPage } from '../models/movie';
 })
 export class MovieService {
   private http = inject(HttpClient);
-  private apiUrl = this.buildApiUrl();
-
-  private buildApiUrl(): string {
-    const base = (window as any).API_BASE_URL;
-    if (base === '' && window.location.port === '4200') {
-      return 'http://localhost:5062/api/Movies'; // ng serve dev
-    }
-    if (base) {
-      return `${base}/api/Movies`; // docker-compose
-    }
-    return '/api/Movies'; // K8s ingress (relative URL)
-  }
+  private apiUrl = '/api/Movies';
 
   getMovies(page: number = 1, pageSize: number = 10): Observable<MoviesPage> {
     return this.http.get<MoviesPage>(`${this.apiUrl}?page=${page}&pageSize=${pageSize}`);

@@ -6,23 +6,6 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-<script>
-  // API URL detection - v2
-  // Dev (ng serve, 4200): use localhost:5062 (in services)
-  // docker-compose (8081): use localhost:8080
-  // K8s ingress: relative /api/...
-  (function() {
-    var host = window.location.hostname;
-    var port = window.location.port;
-    if (host === 'localhost' && port === '4200') {
-      window.API_BASE_URL = '';
-    } else if (host === 'localhost' && port === '8081') {
-      window.API_BASE_URL = 'http://localhost:8080';
-    } else {
-      window.API_BASE_URL = '';
-    }
-  })();
-</script>
 </head>
 <body>
   <app-root></app-root>
