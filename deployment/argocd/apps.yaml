@@ -1,0 +1,127 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: movies-mongodb
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/aborosadam/hv6ex7_gde-alkfej-beadando.git
+    targetRevision: main
+    path: deployment/kubernetes
+    directory:
+      include: '00-mongodb.yaml'
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: movies
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: movies-namespace
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/aborosadam/hv6ex7_gde-alkfej-beadando.git
+    targetRevision: main
+    path: deployment/kubernetes
+    directory:
+      include: '01-namespace.yaml'
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: movies
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: movies-backend
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/aborosadam/hv6ex7_gde-alkfej-beadando.git
+    targetRevision: main
+    path: deployment/kubernetes
+    directory:
+      include: '02-backend-deployment.yaml'
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: movies
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: movies-frontend
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/aborosadam/hv6ex7_gde-alkfej-beadando.git
+    targetRevision: main
+    path: deployment/kubernetes
+    directory:
+      include: '03-frontend-deployment.yaml'
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: movies
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: movies-ingress
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/aborosadam/hv6ex7_gde-alkfej-beadando.git
+    targetRevision: main
+    path: deployment/kubernetes
+    directory:
+      include: '04-ingress.yaml'
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: movies
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: movies-mcp-server
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/aborosadam/hv6ex7_gde-alkfej-beadando.git
+    targetRevision: main
+    path: deployment/kubernetes
+    directory:
+      include: '05-mcp-deployment.yaml'
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: movies
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
