@@ -1,12 +1,12 @@
-
+# Build stage v3 - 2026-04-28-1830
 FROM node:20-alpine AS build
 WORKDIR /src
 COPY package*.json ./
 RUN npm ci
 COPY . ./
-RUN npm run build -- --configuration production
+RUN npm run build -- --configuration production && ls -la /src/dist/movies-app/browser/
 
-
+# Runtime stage v3
 FROM nginx:1.27-alpine AS runtime
 COPY --from=build /src/dist/movies-app/browser /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
