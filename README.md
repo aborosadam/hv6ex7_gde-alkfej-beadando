@@ -29,6 +29,16 @@ Részletes telepítési útmutató: [INSTALL.md - ArgoCD szekció](docs/INSTALL.
 - Átlagos értékelés számolása
 - Két nézet: filmlista + film részletek
 
+## Screenshots
+
+### Movies Database UI
+
+![Movies Database](docs/images/moviesdatabase.jpg)
+
+### Swagger API documentation
+
+![Swagger UI](docs/images/swagger.jpg)
+
 ## Container images
 
 A CI build automatikusan publikálja az image-eket:
