@@ -160,3 +160,48 @@ Ez többnyire azt jelenti, hogy a backend pod nem készült el még. Várj 1 per
 ```bash
 kubectl rollout restart deployment/backend -n movies
 ```
+## Telepítés ArgoCD-vel (CD pipeline)
+
+A repó tartalmaz ArgoCD Application CR-eket, amelyek lehetővé teszik az automatikus, GitOps-stílusú deploymentet.
+
+### Előfeltételek
+
+- Telepített ArgoCD a klaszteren
+
+### ArgoCD telepítése
+
+```bash
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+```
+
+### ArgoCD UI elérése
+
+```bash
+kubectl port-forward -n argocd svc/argocd-server 8443:443
+```
+
+Browser: https://localhost:8443
+
+Admin jelszó kinyerése:
+```bash
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+```
+
+### Application CR-ek telepítése
+
+```bash
+kubectl apply -f deployment/argocd/apps.yaml
+```
+
+Ez után az ArgoCD automatikusan szinkronizálja a teljes alkalmazást. Bármely Git push az `main` branchre, ami a `deployment/kubernetes/` mappát érinti, automatikusan deploy-olódik a klaszterre.
+
+### Komponensek
+
+Az `apps.yaml` 6 Application-t definiál:
+- `movies-namespace` — A movies namespace létrehozása
+- `movies-mongodb` — MongoDB deployment + PVC + Service
+- `movies-backend` — ASP.NET backend
+- `movies-frontend` — Angular frontend
+- `movies-mcp-server` — MCP server microservice (AI tool integration)
+- `movies-ingress` — Nginx Ingress route-ok
