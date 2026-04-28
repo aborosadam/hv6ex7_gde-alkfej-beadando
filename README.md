@@ -13,6 +13,14 @@ Filmnyilvántartó alkalmazás ASP.NET 10 backend + Angular 21 frontend + MongoD
 - **CI/CD:** GitHub Actions
 - **Image registry:** GitHub Container Registry (ghcr.io)
 
+## CD pipeline (ArgoCD)
+
+Az alkalmazás ArgoCD GitOps módon is deploy-olható. Az `deployment/argocd/apps.yaml` 6 ArgoCD Application-t definiál, amelyek figyelik a `deployment/kubernetes/` mappát, és bármely változást automatikusan szinkronizálnak a klaszterre.
+
+![ArgoCD Dashboard](docs/images/argocd.jpg)
+
+Részletes telepítési útmutató: [INSTALL.md - ArgoCD szekció](docs/INSTALL.md#telepítés-argocd-vel-cd-pipeline)
+
 ## Funkcionalitás
 
 - Filmek listázása paginálva
