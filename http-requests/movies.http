@@ -1,0 +1,39 @@
+@host = http://localhost:5062
+
+### Get all movies (paginated)
+GET {{host}}/api/Movies?page=1&pageSize=10
+
+### Get one movie
+GET {{host}}/api/Movies/REPLACE_WITH_ID
+
+### Create a movie
+POST {{host}}/api/Movies
+Content-Type: application/json
+
+{
+  "title": "The Matrix",
+  "director": "Wachowski Sisters",
+  "year": 1999,
+  "genre": "Sci-Fi",
+  "description": "There is no spoon.",
+  "posterUrl": ""
+}
+
+### Update a movie
+PUT {{host}}/api/Movies/REPLACE_WITH_ID
+Content-Type: application/json
+
+{
+  "title": "The Matrix Reloaded",
+  "director": "Wachowski Sisters",
+  "year": 2003,
+  "genre": "Sci-Fi",
+  "description": "Sequel.",
+  "posterUrl": ""
+}
+
+### Delete a movie
+DELETE {{host}}/api/Movies/REPLACE_WITH_ID
+
+### Health check
+GET {{host}}/health
