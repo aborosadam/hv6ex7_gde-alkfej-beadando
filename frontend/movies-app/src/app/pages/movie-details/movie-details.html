@@ -1,0 +1,53 @@
+<a routerLink="/movies" class="back-link">← Back to all movies</a>
+
+@if (loading()) {
+  <p>Loading...</p>
+} @else if (!movie()) {
+  <p>Movie not found.</p>
+} @else {
+  <div class="movie-detail">
+    <h2>{{ movie()!.title }}</h2>
+    <p class="meta">
+      <strong>Director:</strong> {{ movie()!.director }} ·
+      <strong>Year:</strong> {{ movie()!.year }} ·
+      <strong>Genre:</strong> {{ movie()!.genre }}
+    </p>
+    <p class="description">{{ movie()!.description }}</p>
+    <p class="rating-summary">⭐ {{ averageRating() }}</p>
+  </div>
+
+  <section class="reviews-section">
+    <h3>Reviews</h3>
+
+    <div class="review-form">
+      <h4>Add Your Review</h4>
+      <input type="text" [(ngModel)]="newReview.userName" placeholder="Your name" />
+      <select [(ngModel)]="newReview.rating">
+        <option [value]="5">⭐⭐⭐⭐⭐ (5)</option>
+        <option [value]="4">⭐⭐⭐⭐ (4)</option>
+        <option [value]="3">⭐⭐⭐ (3)</option>
+        <option [value]="2">⭐⭐ (2)</option>
+        <option [value]="1">⭐ (1)</option>
+      </select>
+      <textarea [(ngModel)]="newReview.comment" placeholder="Your thoughts..."></textarea>
+      <button class="btn-primary" (click)="submitReview()">Submit Review</button>
+    </div>
+
+    @if (reviews().length === 0) {
+      <p>No reviews yet. Be the first!</p>
+    } @else {
+      <div class="reviews-list">
+        @for (review of reviews(); track review.id) {
+          <div class="review-card">
+            <div class="review-header">
+              <strong>{{ review.userName }}</strong>
+              <span>{{ '⭐'.repeat(review.rating) }}</span>
+            </div>
+            <p>{{ review.comment }}</p>
+            <button class="btn-danger-small" (click)="deleteReview(review.id!)">Delete</button>
+          </div>
+        }
+      </div>
+    }
+  </section>
+}

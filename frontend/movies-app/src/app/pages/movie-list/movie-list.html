@@ -1,0 +1,42 @@
+<div class="header-row">
+  <h2>Movies ({{ totalCount() }} total)</h2>
+  <button class="btn-primary" (click)="toggleAddForm()">
+    {{ showAddForm() ? 'Cancel' : '+ Add Movie' }}
+  </button>
+</div>
+
+@if (showAddForm()) {
+  <div class="add-form">
+    <h3>New Movie</h3>
+    <input type="text" [(ngModel)]="newMovie.title" placeholder="Title" />
+    <input type="text" [(ngModel)]="newMovie.director" placeholder="Director" />
+    <input type="number" [(ngModel)]="newMovie.year" placeholder="Year" />
+    <input type="text" [(ngModel)]="newMovie.genre" placeholder="Genre" />
+    <textarea [(ngModel)]="newMovie.description" placeholder="Description"></textarea>
+    <input type="text" [(ngModel)]="newMovie.posterUrl" placeholder="Poster URL (optional)" />
+    <button class="btn-primary" (click)="createMovie()">Save</button>
+  </div>
+}
+
+@if (loading()) {
+  <p>Loading...</p>
+} @else if (movies().length === 0) {
+  <p>No movies yet. Add one above!</p>
+} @else {
+  <div class="movie-grid">
+    @for (movie of movies(); track movie.id) {
+      <div class="movie-card" [routerLink]="['/movies', movie.id]">
+        <h3>{{ movie.title }}</h3>
+        <p class="meta">{{ movie.director }} · {{ movie.year }} · {{ movie.genre }}</p>
+        <p class="description">{{ movie.description }}</p>
+        <button class="btn-danger" (click)="deleteMovie(movie.id!, $event)">Delete</button>
+      </div>
+    }
+  </div>
+
+  <div class="pagination">
+    <button (click)="goToPage(currentPage() - 1)" [disabled]="currentPage() === 1">← Prev</button>
+    <span>Page {{ currentPage() }} of {{ totalPages() }}</span>
+    <button (click)="goToPage(currentPage() + 1)" [disabled]="currentPage() === totalPages()">Next →</button>
+  </div>
+}
