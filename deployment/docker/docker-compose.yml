@@ -1,0 +1,45 @@
+services:
+  mongodb:
+    image: mongo:8
+    container_name: movies-mongo-stack
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - movies-net
+
+  backend:
+    image: movies-api:dev
+    container_name: movies-backend
+    depends_on:
+      - mongodb
+    environment:
+      MongoDbSettings__ConnectionString: mongodb://admin:admin123@mongodb:27017/?authSource=admin
+      MongoDbSettings__DatabaseName: moviesdb
+      MongoDbSettings__MoviesCollectionName: movies
+      MongoDbSettings__ReviewsCollectionName: reviews
+    ports:
+      - "8080:8080"
+    networks:
+      - movies-net
+
+  frontend:
+    image: movies-frontend:dev
+    container_name: movies-frontend
+    depends_on:
+      - backend
+    ports:
+      - "8081:80"
+    networks:
+      - movies-net
+
+volumes:
+  mongo_data:
+
+networks:
+  movies-net:
+    driver: bridge

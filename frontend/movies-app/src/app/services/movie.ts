@@ -8,7 +8,7 @@ import { Movie, MoviesPage } from '../models/movie';
 })
 export class MovieService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:5062/api/Movies';
+  private apiUrl = (window as any).API_BASE_URL ? `${(window as any).API_BASE_URL}/api/Movies` : 'http://localhost:5062/api/Movies';
 
   getMovies(page: number = 1, pageSize: number = 10): Observable<MoviesPage> {
     return this.http.get<MoviesPage>(`${this.apiUrl}?page=${page}&pageSize=${pageSize}`);

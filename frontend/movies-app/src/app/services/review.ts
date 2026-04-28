@@ -8,7 +8,7 @@ import { Review } from '../models/review';
 })
 export class ReviewService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:5062/api/Reviews';
+  private apiUrl = (window as any).API_BASE_URL ? `${(window as any).API_BASE_URL}/api/Reviews` : 'http://localhost:5062/api/Reviews';
 
   getReviewsByMovie(movieId: string): Observable<Review[]> {
     return this.http.get<Review[]>(`${this.apiUrl}?movieId=${movieId}`);
